@@ -1,0 +1,48 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "0.0.1",
+  "description": "Google-Udacity Mobile Web Specialist Challenge: Restaurant App: Stage 1. Transform a static web app to a {Mobile First, Accessible, Responsible, Performant, Offline Capable, Dynamic} Progressive Web App",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "precommit": "lint-staged",
+    "start": "cross-env FORCE_COLOR=true live-server ./ --port=8000",
+    "format": "prettier --single-quote --trailing-comma es5 --write '**/*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nmpegetis/mws-restaurant-stage-1.git"
+  },
+  "keywords": [
+    "mws",
+    "udacity",
+    "google",
+    "restaurant",
+    "app",
+    "nmpegetis"
+  ],
+  "author": "nmpegetis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nmpegetis/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/nmpegetis/mws-restaurant-stage-1#readme",
+  "lint-staged": {
+    "*.js": [
+      "prettier --single-quote --trailing-comma es5 --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "cross-env": "^5.2.0",
+    "lint-staged": "^6.1.0",
+    "live-server": "^1.2.0",
+    "prettier": "^1.13.5"
+  },
+  "dependencies": {
+    "install": "^0.12.1",
+    "mapbox-gl": "^0.46.0",
+    "npm": "^6.1.0"
+  }
+}
