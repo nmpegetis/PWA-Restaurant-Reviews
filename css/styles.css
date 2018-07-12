@@ -260,7 +260,7 @@ nav h1 a {
 #restaurants-list p {
   margin: 0;
 }
-#restaurants-list li a {
+#restaurants-list li button, #restaurants-list li a {
   background-color: orange;
   border-bottom: 3px solid #eee;
   color: #fff;
