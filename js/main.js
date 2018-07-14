@@ -1,5 +1,3 @@
-import { map, tileLayer } from 'leaflet';
-
 let restaurants, neighborhoods, cuisines;
 var newMap; // it need to be var due to es5
 const markers = [];
@@ -74,12 +72,12 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
  * Initialize leaflet map, called from HTML.
  */
 initMap = () => {
-  this.newMap = map('map', {
+  this.newMap = L.map('map', {
     center: [40.722216, -73.987501],
     zoom: 12,
     scrollWheelZoom: false
   });
-  tileLayer(
+  L.tileLayer(
     'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
       mapboxToken: 'pk.eyJ1Ijoibm1wZWdldGlzIiwiYSI6ImNqamoyaDVkOTVqNzczcHMycTZ5YmpqYW4ifQ.PFeA3FhfCSfV43jdMdrO9w',
       maxZoom: 18,
