@@ -1,6 +1,8 @@
+import { map, tileLayer } from 'leaflet';
+
 let restaurants, neighborhoods, cuisines;
-let newMap;
-let markers = [];
+var newMap; // it need to be var due to es5
+const markers = [];
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -72,19 +74,16 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
  * Initialize leaflet map, called from HTML.
  */
 initMap = () => {
-  self.newMap = L.map('map', {
+  this.newMap = map('map', {
     center: [40.722216, -73.987501],
     zoom: 12,
-    scrollWheelZoom: false,
+    scrollWheelZoom: false
   });
-  L.tileLayer(
-    'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}',
-    {
-      mapboxToken:
-        'pk.eyJ1Ijoibm1wZWdldGlzIiwiYSI6ImNqamJjMmtkNTB5Zm4zcXFtZm0zazU0NTcifQ.QYOvIFLIrpiDQJvyhaIcAQ',
+  tileLayer(
+    'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
+      mapboxToken: 'pk.eyJ1Ijoibm1wZWdldGlzIiwiYSI6ImNqamoyaDVkOTVqNzczcHMycTZ5YmpqYW4ifQ.PFeA3FhfCSfV43jdMdrO9w',
       maxZoom: 18,
-      attribution:
-        'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       id: 'mapbox.streets',
@@ -180,7 +179,7 @@ createRestaurantHTML = restaurant => {
 
   const container = document.createElement('div');
   container.className = "restaurant-info";
-  
+
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
@@ -197,7 +196,9 @@ createRestaurantHTML = restaurant => {
 
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
-  more.addEventListener('click', () => { window.location.href = DBHelper.urlForRestaurant(restaurant); });
+  more.addEventListener('click', () => {
+    window.location.href = DBHelper.urlForRestaurant(restaurant);
+  });
 
   li.append(more);
 
@@ -212,6 +213,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
     marker.on('click', onClick);
+
     function onClick() {
       window.location.href = marker.options.url;
     }
