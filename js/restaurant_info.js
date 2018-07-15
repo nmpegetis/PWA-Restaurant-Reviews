@@ -17,7 +17,7 @@ initMap = () => {
       // Got an error!
       console.error(error);
     } else {
-      self.newMap = L.map('map', {
+      this.newMap = L.map('map', {
         center: [restaurant.latlng.lat, restaurant.latlng.lng],
         zoom: 16,
         scrollWheelZoom: false,
@@ -25,7 +25,7 @@ initMap = () => {
       L.tileLayer(
         'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}',
         {
-          mapboxToken: '<your MAPBOX API KEY HERE>',
+          mapboxToken: 'pk.eyJ1Ijoibm1wZWdldGlzIiwiYSI6ImNqamoyaDVkOTVqNzczcHMycTZ5YmpqYW4ifQ.PFeA3FhfCSfV43jdMdrO9w',
           maxZoom: 18,
           attribution:
             'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -162,16 +162,25 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = review => {
   const li = document.createElement('li');
-  const name = document.createElement('p');
+  const title = document.createElement('p');
+  const name = document.createElement('span');
   name.innerHTML = review.name;
-  li.appendChild(name);
-
-  const date = document.createElement('p');
+  name.setAttribute("class", "review_name");
+  const date = document.createElement('span');
   date.innerHTML = review.date;
-  li.appendChild(date);
+  date.setAttribute("class", "review_date");
+  title.appendChild(name);
+  title.appendChild(date);
+  title.setAttribute("class", "review_title");
+  li.appendChild(title);
+
+  // const date = document.createElement('p');
+  // date.innerHTML = review.date;
+  // li.appendChild(date);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
+  rating.setAttribute("class", "review_rating");
   li.appendChild(rating);
 
   const comments = document.createElement('p');

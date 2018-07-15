@@ -180,15 +180,15 @@ createRestaurantHTML = restaurant => {
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
-  li.append(name);
+  container.append(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  container.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  li.append(address);
+  container.append(address);
 
   li.append(container);
 
