@@ -169,17 +169,17 @@ class DBHelper {
   }
 
   /**
-  * Index image Srcset.
-  */
+   * Index image Srcset.
+   */
   static imageSrcsetForIndex(restaurant) {
     return `${restaurant.srcset_index}`;
   }
 
   /**
-  * Restaurant image Srcset.
-  */
+   * Restaurant image Srcset.
+   */
   static imageSrcsetForRestaurant(restaurant) {
-      return `${restaurant.srcset_restaurant}`;
+    return `${restaurant.srcset_restaurant}`;
   }
 
   /**

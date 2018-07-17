@@ -25,7 +25,8 @@ initMap = () => {
       L.tileLayer(
         'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}',
         {
-          mapboxToken: 'pk.eyJ1Ijoibm1wZWdldGlzIiwiYSI6ImNqamoyaDVkOTVqNzczcHMycTZ5YmpqYW4ifQ.PFeA3FhfCSfV43jdMdrO9w',
+          mapboxToken:
+            'pk.eyJ1Ijoibm1wZWdldGlzIiwiYSI6ImNqamoyaDVkOTVqNzczcHMycTZ5YmpqYW4ifQ.PFeA3FhfCSfV43jdMdrO9w',
           maxZoom: 18,
           attribution:
             'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -97,8 +98,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.srcset = DBHelper.imageSrcsetForIndex(restaurant);
-  image.sizes = "(max-width: 320px) 300px, (max-width: 425px) 400px, (max-width: 635px) 600px, (min-width: 636px) 400px";
-  const altText = `Image of ${restaurant.name} restaurant in ${restaurant.neighborhood}`;
+  image.sizes =
+    '(max-width: 320px) 300px, (max-width: 425px) 400px, (max-width: 635px) 600px, (min-width: 636px) 400px';
+  const altText = `Image of ${restaurant.name} restaurant in ${
+    restaurant.neighborhood
+  }`;
   image.title = altText;
   image.alt = altText;
 
@@ -165,13 +169,13 @@ createReviewHTML = review => {
   const title = document.createElement('p');
   const name = document.createElement('span');
   name.innerHTML = review.name;
-  name.setAttribute("class", "review_name");
+  name.setAttribute('class', 'review_name');
   const date = document.createElement('span');
   date.innerHTML = review.date;
-  date.setAttribute("class", "review_date");
+  date.setAttribute('class', 'review_date');
   title.appendChild(name);
   title.appendChild(date);
-  title.setAttribute("class", "review_title");
+  title.setAttribute('class', 'review_title');
   li.appendChild(title);
 
   // const date = document.createElement('p');
@@ -180,7 +184,7 @@ createReviewHTML = review => {
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
-  rating.setAttribute("class", "review_rating");
+  rating.setAttribute('class', 'review_rating');
   li.appendChild(rating);
 
   const comments = document.createElement('p');
