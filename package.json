@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "precommit": "yarn format && lint-staged",
-    "start": "yarn format && cross-env FORCE_COLOR=true live-server ./ --port=8000 --cors",
+    "start": "cross-env FORCE_COLOR=true live-server ./ --port=8000 --cors",
     "format": "prettier --single-quote --trailing-comma es5 --write '**/*.js'"
   },
   "repository": {
