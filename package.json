@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "description": "Google-Udacity Mobile Web Specialist Challenge: Restaurant App: Stage 1. Transform a static web app to a {Mobile First, Accessible, Responsible, Performant, Offline Capable, Dynamic} Progressive Web App",
   "main": "index.html",
+  "main-server": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "precommit": "yarn format && lint-staged",
     "start": "cross-env FORCE_COLOR=true live-server ./ --port=8000 --cors",
-    "format": "prettier --single-quote --trailing-comma es5 --write '**/*.js'"
+    "format": "prettier --single-quote --trailing-comma es5 --write '**/*.js'",
+    "debug": "node debug app.js",
+    "server": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -43,6 +46,10 @@
   "dependencies": {
     "install": "^0.12.1",
     "mapbox-gl": "^0.46.0",
-    "npm": "^6.1.0"
+    "npm": "^6.1.0",
+    "include-all": "^1.0.0",
+    "rc": "1.0.1",
+    "sails": "^0.12.13",
+    "sails-disk": "~0.10.9"
   }
 }
