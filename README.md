@@ -1,8 +1,12 @@
 # Udacity & Google MWS Project Stage 1
 ## Contents
 1. Installation 
-2. Result presentation
-3. Final performance results
+2. Stage 1 Submission
+   1. Result presentation
+   2. Final performance results
+3. Stage 2 Submission
+   1. Introductory note
+   2. Installation
 4. Previous forked [Readme.md](https://github.com/udacity/mws-restaurant-stage-1/blob/master/README.md) and Stage-1 Task Specifications 
 
 
@@ -17,20 +21,30 @@ npm run start
 ```
 with the start script, a live server will be setup and listen on port 8000
 
-### 2. Result presentation
+### 2. Stage 1 Submission
 ---
+#### i. Result presentation
 ![result presentation gif](img/mws-stage1-complete1.png)
 ![result presentation gif](img/mws-stage1-complete2.png)
 ![result presentation gif](img/mws-stage1-complete3.png)
 ![result presentation gif](img/mws-stage1-complete4.png)
 ![result presentation gif](img/mws-stage1-complete5.png)
 
-### 3. Final performance results
----
+#### ii. Final performance results
 #### Before:
 ![performance image showing initial state of stage 1](img/mws-stage1-before.png)
 #### After:
 ![performance image showing initial state of stage 1](img/mws-stage1-after.png)
+
+### 3. Stage 2 Submission
+---
+#### i. Introductory note
+I was looking into using `git subtree` or `git submodules` but finally decided to just merge the `udacity/mws-restaurant-stage-2` in here in a seperate folder **`server`**. The reason I did this was because what was provided in **Stage-2** and in **Stage-3** is almost ready and doesn't need to be touched by me. Nevertheless, I created a new branch and a corresponding commit showing this merge between the two projects. From now on, this repository is going to be the main repository for all project. 
+
+What is more, in addition to the above, I decided to keep the package.json and the individual corresponding [server/README.md](./server/README.md), [server/.gitignore](./server/.gitignore), etc. files of the merged repo `udacity/mws-restaurant-stage-2` in the folder server in order to be able for someone to install it seperately.
+
+#### ii. Installation
+
 
 ### 4. Mobile Web Specialist Certification Course
 ---

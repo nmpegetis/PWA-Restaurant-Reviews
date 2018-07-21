@@ -25,6 +25,7 @@
     "nmpegetis"
   ],
   "author": "nmpegetis",
+  "linkedIn": "https://www.linkedin.com/in/nmpegetis/",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/nmpegetis/mws-restaurant-stage-1/issues"
@@ -46,7 +47,6 @@
   "dependencies": {
     "install": "^0.12.1",
     "mapbox-gl": "^0.46.0",
-    "npm": "^6.1.0",
     "include-all": "^1.0.0",
     "rc": "1.0.1",
     "sails": "^0.12.13",
