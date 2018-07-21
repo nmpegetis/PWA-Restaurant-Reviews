@@ -1,8 +1,8 @@
 const path = require('path');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
-// const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
-// const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
 
 const paths = {
   root: path.resolve(__dirname, '../'),
@@ -11,14 +11,15 @@ const paths = {
 };
 
 module.exports = {
-  entry: [
-    path.join(paths.src, 'main.js'),
-    path.join(paths.src, 'dbhelper.js'),
-    path.join(paths.src, 'restaurant_info.js'),
-    path.join(paths.src, 'sw_register.js'),
-    path.join(paths.src, 'idb.js'),
-    path.join(paths.root, 'sw.js'),
-  ],
+  entry: {
+    main: path.join(paths.src, 'main.js'),
+    dbhelper: path.join(paths.src, 'dbhelper.js'),
+    restaurant: path.join(paths.src, 'restaurant_info.js'),
+    sw_register: path.join(paths.src, 'sw_register.js'),
+    idb: path.join(paths.root, './node_modules/idb/lib/idb.js'),
+    maps: path.join(paths.root, './node_modules/mapbox-gl/dist/mapbox-gl.js'),
+    sw: path.join(paths.root, 'sw.js'),
+  },
 
   // NOTE: check https://webpack.js.org/configuration/devtool/
   // and https://github.com/webpack/webpack/tree/master/examples/source-map
@@ -30,33 +31,33 @@ module.exports = {
     path: paths.root,
     filename: '[name].bundle.js',
   },
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     hash: false,
-  //     template: './index.html',
-  //     title: 'Restaurant Reviews',
-  //     chunksSortMode: 'manual',
-  //     chunks: [ 'idb', 'dbhelper', 'main', 'sw_register'],
-  //     filename: 'index.html',
-  //     inject: false
-  //   }),
-  //   new HtmlWebpackPlugin({
-  //     hash: false,
-  //     template: './restaurant.html',
-  //     title: 'Restaurant Info',
-  //     chunksSortMode: 'manual',
-  //     chunks: ['idb', 'dbhelper', 'restaurant', 'sw_register'],
-  //     filename: 'restaurant.html',
-  //     inject: false
-  //   }),
-  //   new CopyWebpackPlugin([
-  //     { from: './img/', to: './img/'},
-  //   ]),
-  //   new ExtractTextWebpackPlugin("./style.css"),
-  //   new UglifyWebpackPlugin({
-  //     sourceMap: true
-  //   })
-  // ],
+  plugins: [
+    new HtmlWebpackPlugin({
+      hash: false,
+      template: './index.html',
+      title: 'Restaurant Reviews',
+      chunksSortMode: 'manual',
+      chunks: [ 'main', 'dbhelper', 'sw_register', 'idb', 'maps', 'sw'],
+      filename: 'index.html',
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      hash: false,
+      template: './restaurant.html',
+      title: 'Restaurant Info',
+      chunksSortMode: 'manual',
+      chunks: [ 'restuarant', 'dbhelper', 'sw_register', 'idb', 'maps', 'sw'],
+      filename: 'restaurant.html',
+      inject: false
+    }),
+    new CopyWebpackPlugin([
+      { from: './img/', to: './img/'},
+    ]),
+    new ExtractTextWebpackPlugin("./style.css"),
+    new UglifyWebpackPlugin({
+      sourceMap: true
+    })
+  ],
   resolve: {
     extensions: ['.js'],
     alias: {
@@ -94,23 +95,23 @@ module.exports = {
           path.resolve(paths.root, 'server/node_modules'),
         ],
       },
-      // {
-      //   test: /\.css$/,
-      //   use: ExtractTextWebpackPlugin.extract({
-      //     use: "css-loader",
-      //     fallback: "style-loader"
-      //   })
-      // },
-      // { test: /\.jpg$/, use: [ "file-loader" ] },
-      // {
-      //   test: /\.html$/,
-      //   use: [ {
-      //     loader: 'html-loader',
-      //     options: {
-      //       minimize: true
-      //     }
-      //   }],
-      // },
+      {
+        test: /\.css$/,
+        use: ExtractTextWebpackPlugin.extract({
+          use: "css-loader",
+          fallback: "style-loader"
+        })
+      },
+      { test: /\.jpg$/, use: [ "file-loader" ] },
+      {
+        test: /\.html$/,
+        use: [ {
+          loader: 'html-loader',
+          options: {
+            minimize: true
+          }
+        }],
+      },
     ]
   }
 };
