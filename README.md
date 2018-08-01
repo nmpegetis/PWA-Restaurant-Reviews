@@ -1,13 +1,14 @@
 # Udacity & Google MWS Project Stage 1
 ## Contents
-1. Installation 
-2. Stage 1 Submission
+1. Installation
+2. Usage  
+3. Stage 1 Submission
    1. Result presentation
    2. Final performance results
-3. Stage 2 Submission
+4. Stage 2 Submission
    1. Introductory note
    2. Installation
-4. Previous forked [Readme.md](https://github.com/udacity/mws-restaurant-stage-1/blob/master/README.md) and Stage-1 Task Specifications 
+5. Previous forked [Readme.md](https://github.com/udacity/mws-restaurant-stage-1/blob/master/README.md) and Stage-1 Task Specifications 
 
 
 ### 1. Installation
@@ -17,11 +18,34 @@ You should have a package manager like [npm](https://www.npmjs.com/) or [yarn](h
 
 ```
 npm install
+cd server && npm install && cd ..
 npm run start
 ```
 with the start script, a live server will be setup and listen on port 8000
 
-### 2. Stage 1 Submission
+
+### 2. Usage
+---
+
+You should have a package manager like [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) installed. Then:
+
+Open 2 command lines one for the front-end and one for the back-end
+Start the 2 ends:
+Back-End
+
+```
+npm run server
+```
+with the server script, a node server will be setup and listen on port 1337
+
+
+Front-End
+```
+npm run start
+```
+with the start script, a live server will be setup and listen on port 8000
+
+### 3. Stage 1 Submission
 ---
 #### i. Result presentation
 ![result presentation gif](img/mws-stage1-complete1.png)
@@ -36,7 +60,7 @@ with the start script, a live server will be setup and listen on port 8000
 #### After:
 ![performance image showing initial state of stage 1](img/mws-stage1-after.png)
 
-### 3. Stage 2 Submission
+### 4. Stage 2 Submission
 ---
 #### i. Introductory note
 I was looking into using `git subtree` or `git submodules` but finally decided to just merge the `udacity/mws-restaurant-stage-2` in here in a seperate folder **`server`**. The reason I did this was because what was provided in **Stage-2** and in **Stage-3** is almost ready and doesn't need to be touched by me. Nevertheless, I created a new branch and a corresponding commit showing this merge between the two projects. From now on, this repository is going to be the main repository for all project. 
@@ -46,7 +70,7 @@ What is more, in addition to the above, I decided to keep the package.json and t
 #### ii. Installation
 
 
-### 4. Mobile Web Specialist Certification Course
+### 5. Mobile Web Specialist Certification Course
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
 
