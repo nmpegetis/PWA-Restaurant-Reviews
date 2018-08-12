@@ -1,37 +1,48 @@
-import idb from "idb";
+import idb from 'idb';
+import IdbHandler from './idbhandler';
 
 /**
  * Common database helper functions.
  */
-class DBHelper {
+export class DBHelper {
+  static initIDB() {
+    this.db = IdbHandler.openDB();
+  }
+
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000; // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337; // Change this to your server port
+    return `http://localhost:${port}`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else {
-        // Oops!. Got an error from server.
-        const error = `Request failed. Returned status of ${xhr.status}`;
-        callback(error, null);
-      }
-    };
-    xhr.send();
+    IdbHandler.fetchIdbData(db).then(restaurants => {
+      !!restaurants
+        ? callback(null, restaurants)
+        : IdbHandler.fetchAndStoreIdbData(db, callback);
+    });
+
+    // let xhr = new XMLHttpRequest();
+    // xhr.open('GET', DBHelper.DATABASE_URL);
+    // xhr.onload = () => {
+    //   if (xhr.status === 200) {
+    //     // Got a success response from server!
+    //     const json = JSON.parse(xhr.responseText);
+    //     const restaurants = json.restaurants;
+    //     callback(null, restaurants);
+    //   } else {
+    //     // Oops!. Got an error from server.
+    //     const error = `Request failed. Returned status of ${xhr.status}`;
+    //     callback(error, null);
+    //   }
+    // };
+    // xhr.send();
   }
 
   /**
@@ -187,7 +198,7 @@ class DBHelper {
   /**
    * Map marker for a restaurant.
    */
-  static mapMarkerForRestaurant(restaurant, map) {
+  static mapMarkerForRestaurant(restaurant, newMap) {
     // https://leafletjs.com/reference-1.3.0.html#marker
     const marker = new L.marker(
       [restaurant.latlng.lat, restaurant.latlng.lng],
@@ -200,6 +211,7 @@ class DBHelper {
     marker.addTo(newMap);
     return marker;
   }
+
   /* static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
       position: restaurant.latlng,
