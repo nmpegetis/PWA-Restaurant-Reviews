@@ -1,48 +1,19 @@
-import idb from 'idb';
-import IdbHandler from './idbhandler';
+import { IdbHandler } from './idbhandler';
 
 /**
  * Common database helper functions.
  */
 export class DBHelper {
-  static initIDB() {
-    this.db = IdbHandler.openDB();
-  }
-
-  /**
-   * Database URL.
-   * Change this to restaurants.json file location on your server.
-   */
-  static get DATABASE_URL() {
-    const port = 1337; // Change this to your server port
-    return `http://localhost:${port}`;
-  }
-
+  
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    IdbHandler.fetchIdbData(db).then(restaurants => {
-      !!restaurants
+    IdbHandler.fetchIdbData(IdbHandler.openDB()).then(restaurants => {
+      !!restaurants && restaurants.length > 0
         ? callback(null, restaurants)
-        : IdbHandler.fetchAndStoreIdbData(db, callback);
+        : IdbHandler.fetchAndStoreIdbData(IdbHandler.openDB(), callback);
     });
-
-    // let xhr = new XMLHttpRequest();
-    // xhr.open('GET', DBHelper.DATABASE_URL);
-    // xhr.onload = () => {
-    //   if (xhr.status === 200) {
-    //     // Got a success response from server!
-    //     const json = JSON.parse(xhr.responseText);
-    //     const restaurants = json.restaurants;
-    //     callback(null, restaurants);
-    //   } else {
-    //     // Oops!. Got an error from server.
-    //     const error = `Request failed. Returned status of ${xhr.status}`;
-    //     callback(error, null);
-    //   }
-    // };
-    // xhr.send();
   }
 
   /**
@@ -109,8 +80,10 @@ export class DBHelper {
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
+        console.log('2er')
         callback(error, null);
       } else {
+        console.log('2ok',restaurants)
         let results = restaurants;
         if (cuisine != 'all') {
           // filter by cuisine

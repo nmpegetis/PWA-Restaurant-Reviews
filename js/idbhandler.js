@@ -14,8 +14,10 @@ const url = `http://${server}:${port}/restaurants`;
 export class IdbHandler {
   static openDB() {
     if (!navigator.serviceWorker) {
+      console.log('Service Worker in use...');
       return Promise.resolve();
     }
+    console.log('Opening idb...');
     return idb.open(idbName, idbVersion, upgradeDb => {
       upgradeDb.createObjectStore(idbCollection, { keyPath: 'id' });
     });
@@ -23,6 +25,7 @@ export class IdbHandler {
 
   /* fetch restaurant data from idb */
   static fetchIdbData(dbPromise) {
+    console.log('fetch data from idb...')
     return dbPromise.then(db => {
       if (!db) return;
       return db
@@ -34,15 +37,19 @@ export class IdbHandler {
 
   /* fetch restaurant data from server and store to idb */
   static fetchAndStoreIdbData(dbPromise, callback) {
+    console.log('fetch data from server...')
     fetch(url)
       .then(response => response.json())
       .then(restaurants => {
-        restaurants.map(restaurant =>
-          db
-            .transaction(idbCollection, idbPermission)
-            .objectStore(idbCollection)
-            .put(restaurant)
-        );
+        dbPromise.then(db => {
+          if (!db) return;
+          restaurants.map(restaurant =>
+            db
+              .transaction(idbCollection, idbPermission)
+              .objectStore(idbCollection)
+              .put(restaurant)
+          );  
+        })
         return callback(null, restaurants);
       })
       .catch(error => callback(error, null));

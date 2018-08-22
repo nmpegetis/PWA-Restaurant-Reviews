@@ -1,21 +1,21 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
 
 const paths = {
   root: path.resolve(__dirname, '../'),
   dist: path.resolve(__dirname, '../dist'),
-  src: path.resolve(__dirname, '../js'),
+  js: path.resolve(__dirname, '../js'),
 };
 
 module.exports = {
   entry: {
-    main: path.join(paths.src, 'main.js'),
-    dbhelper: path.join(paths.src, 'dbhelper.js'),
-    restaurant: path.join(paths.src, 'restaurant_info.js'),
-    sw_register: path.join(paths.src, 'sw_register.js'),
+    main: path.join(paths.js, 'main.js'),
+    dbhelper: path.join(paths.js, 'dbhelper.js'),
+    idbhandler: path.join(paths.js, 'idbhandler.js'),
+    restaurant: path.join(paths.js, 'restaurant_info.js'),
+    sw_register: path.join(paths.js, 'sw_register.js'),
     idb: path.join(paths.root, './node_modules/idb/lib/idb.js'),
     maps: path.join(paths.root, './node_modules/mapbox-gl/dist/mapbox-gl.js'),
     sw: path.join(paths.root, 'sw.js'),
@@ -28,7 +28,7 @@ module.exports = {
 
   // NOTE: https://webpack.js.org/configuration/output/#output-filename
   output: {
-    path: paths.root,
+    path: paths.dist,
     filename: '[name].bundle.js',
   },
   plugins: [
@@ -37,26 +37,23 @@ module.exports = {
       template: './index.html',
       title: 'Restaurant Reviews',
       chunksSortMode: 'manual',
-      chunks: [ 'main', 'dbhelper', 'sw_register', 'idb', 'maps', 'sw'],
+      chunks: ['main', 'dbhelper', 'sw_register', 'idb', 'maps', 'sw'],
       filename: 'index.html',
-      inject: false
+      inject: false,
     }),
     new HtmlWebpackPlugin({
       hash: false,
       template: './restaurant.html',
       title: 'Restaurant Info',
       chunksSortMode: 'manual',
-      chunks: [ 'restuarant', 'dbhelper', 'sw_register', 'idb', 'maps', 'sw'],
+      chunks: ['restuarant', 'dbhelper', 'sw_register', 'idb', 'maps', 'sw'],
       filename: 'restaurant.html',
-      inject: false
+      inject: false,
     }),
-    new CopyWebpackPlugin([
-      { from: './img/', to: './img/'},
-    ]),
-    new ExtractTextWebpackPlugin("./style.css"),
+    new ExtractTextWebpackPlugin('./style.css'),
     new UglifyWebpackPlugin({
-      sourceMap: true
-    })
+      sourceMap: true,
+    }),
   ],
   resolve: {
     extensions: ['.js'],
@@ -98,20 +95,22 @@ module.exports = {
       {
         test: /\.css$/,
         use: ExtractTextWebpackPlugin.extract({
-          use: "css-loader",
-          fallback: "style-loader"
-        })
+          use: 'css-loader',
+          fallback: 'style-loader',
+        }),
       },
-      { test: /\.jpg$/, use: [ "file-loader" ] },
+      { test: /\.jpg$/, use: ['file-loader'] },
       {
         test: /\.html$/,
-        use: [ {
-          loader: 'html-loader',
-          options: {
-            minimize: true
-          }
-        }],
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              minimize: true,
+            },
+          },
+        ],
       },
-    ]
-  }
+    ],
+  },
 };

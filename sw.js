@@ -6,6 +6,13 @@ let filesToCache = [
   'js/main.js',
   'js/restaurant_info.js',
   'js/sw_register.js',
+  'dist/main.bundle.js',
+  'dist/restaurant.bundle.js',
+  'dist/idb.bundle.js',
+  'dist/dbhelper.bundle.js',
+  'dist/maps.bundle.js',
+  'dist/sw_register.bundle.js',
+  'dist/sw.bundle.js',
   'css/styles.css',
   '/restaurant.html?id=1',
   '/restaurant.html?id=2',
@@ -18,6 +25,7 @@ let filesToCache = [
   '/restaurant.html?id=9',
   '/restaurant.html?id=10',
   '/data/restaurants.json',
+  'dist/img/',
 ];
 
 this.addEventListener('install', event => {
