@@ -8,6 +8,7 @@ const markers = [];
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', event => {
+  setFilterListeners(); // needed due to es6 changes in arrow functions
   newMap = initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
@@ -110,6 +111,11 @@ const initMap = () => {
   updateRestaurants();
 } */
 
+const setFilterListeners = () => {
+  document.querySelector('#neighborhoods-select').onchange=updateRestaurants;
+  document.querySelector('#cuisines-select').onchange=updateRestaurants;
+}
+
 /**
  * Update page and map for current restaurants.
  */
@@ -170,8 +176,6 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 const createRestaurantHTML = restaurant => {
-  console.log('asdasdasdasd',restaurant)
-  console.log('DBHelper',DBHelper)
   const li = document.createElement('li');
 
   const image = document.createElement('img');
