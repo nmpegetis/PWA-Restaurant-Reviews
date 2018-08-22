@@ -3,11 +3,8 @@ let filesToCache = [
   'index.html',
   'restaurant.html',
   'sw.js',
-  'js/main.js',
-  'js/restaurant_info.js',
-  'js/sw_register.js',
   'dist/main.bundle.js',
-  'dist/restaurant.bundle.js',
+  'dist/restaurant_info.bundle.js',
   'dist/idb.bundle.js',
   'dist/dbhelper.bundle.js',
   'dist/maps.bundle.js',
@@ -82,9 +79,6 @@ this.addEventListener('fetch', event => {
         );
       })
       .catch(error => {
-        if (event.request.url.includes('.jpg')) {
-          return caches.match('/img/fixed/offline_img1.png');
-        }
         return new Response('Not connected to the internet', {
           status: 404,
           statusText: 'Not connected to the internet',
