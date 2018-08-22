@@ -151,14 +151,14 @@ export class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return `/img/${restaurant.photograph}`;
+    return `/img/${restaurant.id}.jpg`;
   }
 
   /**
    * Index image Srcset.
    */
   static imageSrcsetForIndex(restaurant) {
-    return `${restaurant.srcset_index}`;
+    return `${restaurant.id}.jpg`;
   }
 
   /**

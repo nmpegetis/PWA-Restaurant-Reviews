@@ -170,13 +170,13 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 const createRestaurantHTML = restaurant => {
+  console.log('asdasdasdasd',restaurant)
+  console.log('DBHelper',DBHelper)
   const li = document.createElement('li');
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.srcset = DBHelper.imageSrcsetForIndex(restaurant);
-  image.sizes = '300px';
   const altText = `Image of ${restaurant.name} restaurant in ${
     restaurant.neighborhood
   }`;
