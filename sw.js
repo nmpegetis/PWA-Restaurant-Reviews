@@ -21,8 +21,7 @@ let filesToCache = [
   '/restaurant.html?id=8',
   '/restaurant.html?id=9',
   '/restaurant.html?id=10',
-  '/data/restaurants.json',
-  'dist/img/',
+  'img/',
 ];
 
 this.addEventListener('install', event => {
