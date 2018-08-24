@@ -112,9 +112,9 @@ const initMap = () => {
 } */
 
 const setFilterListeners = () => {
-  document.querySelector('#neighborhoods-select').onchange=updateRestaurants;
-  document.querySelector('#cuisines-select').onchange=updateRestaurants;
-}
+  document.querySelector('#neighborhoods-select').onchange = updateRestaurants;
+  document.querySelector('#cuisines-select').onchange = updateRestaurants;
+};
 
 /**
  * Update page and map for current restaurants.

@@ -7,8 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "precommit": "yarn format && lint-staged",
-    "start2": "yarn clean && yarn build:dev && cross-env FORCE_COLOR=true live-server --entry-file='./dist' --host=localhost --port=8000 --cors",
-    "start": "cross-env FORCE_COLOR=true live-server --entry-file='./dist/index.html' --port=8000 --host=localhost --cors",
+    "start": "yarn clean && yarn build:dev && cross-env FORCE_COLOR=true live-server --entry-file='./dist' --host=localhost --port=8000 --cors",
     "format": "prettier --single-quote --trailing-comma es5 --write '**/*.js' 'server/*/!(node_modules)/**/*.js'",
     "debug": "node debug app.js",
     "server": "node ./server/app.js",

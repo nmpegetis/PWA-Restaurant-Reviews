@@ -4,7 +4,6 @@ import { IdbHandler } from './idbhandler';
  * Common database helper functions.
  */
 export class DBHelper {
-  
   /**
    * Fetch all restaurants.
    */
@@ -80,10 +79,8 @@ export class DBHelper {
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
-        console.log('2er')
         callback(error, null);
       } else {
-        console.log('2ok',restaurants)
         let results = restaurants;
         if (cuisine != 'all') {
           // filter by cuisine
