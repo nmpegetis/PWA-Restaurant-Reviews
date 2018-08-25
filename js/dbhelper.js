@@ -152,13 +152,6 @@ export class DBHelper {
   }
 
   /**
-   * Index image Srcset.
-   */
-  static imageSrcsetForIndex(restaurant) {
-    return `${restaurant.photograph}.jpg`;
-  }
-
-  /**
    * Map marker for a restaurant.
    */
   static mapMarkerForRestaurant(restaurant, newMap) {
