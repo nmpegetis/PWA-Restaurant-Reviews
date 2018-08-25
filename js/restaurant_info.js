@@ -95,6 +95,14 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
+  const favoriteStar = document.createElement('img');
+  favoriteStar.className = 'star-img';
+  favoriteStar.src = restaurant.is_favorite ? "../img/starFilled.svg" : "../img/starEmpty.svg";
+  const starAltText = restaurant.is_favorite ? `Restaurant ${restaurant.name} is favorited. Click to remove.` : `Restaurant ${restaurant.name} is not favorited. Click to add.`;
+  favoriteStar.title = starAltText;
+  favoriteStar.alt = starAltText;
+  name.append(favoriteStar);
+
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 

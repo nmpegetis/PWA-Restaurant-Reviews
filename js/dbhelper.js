@@ -71,9 +71,10 @@ export class DBHelper {
   /**
    * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
    */
-  static fetchRestaurantByCuisineAndNeighborhood(
+  static fetchRestaurantByCuisineAndNeighborhoodAndFavorite(
     cuisine,
     neighborhood,
+    favorite,
     callback
   ) {
     // Fetch all restaurants
@@ -89,6 +90,10 @@ export class DBHelper {
         if (neighborhood != 'all') {
           // filter by neighborhood
           results = results.filter(r => r.neighborhood == neighborhood);
+        }
+        if (favorite != 'all') {
+          // filter by favorite
+          results = results.filter(r => r.name == favorite);
         }
         callback(null, results);
       }
@@ -133,6 +138,22 @@ export class DBHelper {
           (v, i) => cuisines.indexOf(v) == i
         );
         callback(null, uniqueCuisines);
+      }
+    });
+  }
+
+  /**
+   * Fetch all favorites with proper error handling.
+   */
+  static fetchFavorites(callback) {
+    // Fetch all restaurants
+    DBHelper.fetchRestaurants((error, restaurants) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        // Get all favorite from all restaurants
+        const favorites = restaurants.filter(restaurant => restaurant.is_favorite).map(restaurant => restaurant.name);
+        callback(null, favorites);
       }
     });
   }

@@ -206,7 +206,6 @@ nav h1 a {
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
-  display: block;
   margin-top: 25px;
   width: 100%;
   display: flex;
@@ -236,6 +235,16 @@ nav h1 a {
   padding: 8px 30px 10px;
   text-align: center;
   text-transform: uppercase;
+}
+#restaurants-list li h2 .star-img, #restaurant-name .star-img {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+#restaurants-list li h2 .star-img:hover, #restaurant-name .star-img:hover {
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
 }
 
 /* ====================== Restaurant Details ====================== */

@@ -1,6 +1,6 @@
 import { DBHelper } from './dbhelper';
 
-let restaurants, neighborhoods, cuisines;
+let restaurants, neighborhoods, cuisines, favorites;
 let newMap;
 const markers = [];
 
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', event => {
   newMap = initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
+  fetchFavorites();
 });
 
 /**
@@ -72,6 +73,34 @@ const fillCuisinesHTML = (cuisines = self.cuisines) => {
 };
 
 /**
+ * Fetch all favorite restaurants and set their HTML.
+ */
+const fetchFavorites = () => {
+  DBHelper.fetchFavorites((error, favorites) => {
+    if (error) {
+      // Got an error
+      console.error(error);
+    } else {
+      self.favorites = favorites;
+      fillFavoritesHTML();
+    }
+  });
+};
+
+/**
+ * Set neighborhoods HTML.
+ */
+const fillFavoritesHTML = (favorites = self.favorites) => {
+  const select = document.getElementById('favorites-select');
+  favorites.forEach(favorite => {
+    const option = document.createElement('option');
+    option.innerHTML = favorite;
+    option.value = favorite;
+    select.append(option);
+  });
+};
+
+/**
  * Initialize leaflet map, called from HTML.
  */
 const initMap = () => {
@@ -114,6 +143,7 @@ const initMap = () => {
 const setFilterListeners = () => {
   document.querySelector('#neighborhoods-select').onchange = updateRestaurants;
   document.querySelector('#cuisines-select').onchange = updateRestaurants;
+  document.querySelector('#favorites-select').onchange = updateRestaurants;
 };
 
 /**
@@ -122,16 +152,20 @@ const setFilterListeners = () => {
 const updateRestaurants = () => {
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
+  const fSelect = document.getElementById('favorites-select');
 
   const cIndex = cSelect.selectedIndex;
   const nIndex = nSelect.selectedIndex;
+  const fIndex = fSelect.selectedIndex;
 
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
+  const favorite = fSelect[fIndex].value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(
+  DBHelper.fetchRestaurantByCuisineAndNeighborhoodAndFavorite(
     cuisine,
     neighborhood,
+    favorite,
     (error, restaurants) => {
       if (error) {
         // Got an error!
@@ -193,6 +227,15 @@ const createRestaurantHTML = restaurant => {
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
+
+  const favoriteStar = document.createElement('img');
+  favoriteStar.className = 'star-img';
+  favoriteStar.src = restaurant.is_favorite ? "../img/starFilled.svg" : "../img/starEmpty.svg";
+  const starAltText = restaurant.is_favorite ? `Restaurant ${restaurant.name} is favorited. Click to remove.` : `Restaurant ${restaurant.name} is not favorited. Click to add.`;
+  favoriteStar.title = starAltText;
+  favoriteStar.alt = starAltText;
+  name.append(favoriteStar);
+  //TODO create onClick event
   container.append(name);
 
   const neighborhood = document.createElement('p');
