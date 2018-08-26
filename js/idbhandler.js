@@ -7,7 +7,7 @@ const idbPermission = 'readwrite';
 
 const server = 'localhost';
 const port = '1337';
-const url = `http://${server}:${port}/restaurants`;
+export const url = `http://${server}:${port}/restaurants`;
 
 /*eslint-disable no-unused-vars*/
 
@@ -51,5 +51,23 @@ export class IdbHandler {
         return callback(null, restaurants);
       })
       .catch(error => callback(error, null));
+  }
+
+  /* fetch restaurant data from server and store to idb */
+  static toggleFavoriteInIdb(dbPromise, restaurantId, value) {
+    /*eslint-disable no-undef*/
+    dbPromise.then(db => {
+      if (!db) return;
+      const idbStore = db
+        .transaction(idbCollection, idbPermission)
+        .objectStore(idbCollection);
+      idbStore.get(restaurantId).then(updatedRestaurant => {
+        updatedRestaurant.is_favorite = value;
+        idbStore.put(updatedRestaurant);
+      });
+      console.log(
+        `Updated IDB with restaurant[${restaurantId}].is_favorite : ${value}`
+      );
+    });
   }
 }

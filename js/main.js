@@ -230,12 +230,16 @@ const createRestaurantHTML = restaurant => {
 
   const favoriteStar = document.createElement('img');
   favoriteStar.className = 'star-img';
-  favoriteStar.src = restaurant.is_favorite ? "../img/starFilled.svg" : "../img/starEmpty.svg";
-  const starAltText = restaurant.is_favorite ? `Restaurant ${restaurant.name} is favorited. Click to remove.` : `Restaurant ${restaurant.name} is not favorited. Click to add.`;
+  favoriteStar.src = restaurant.is_favorite
+    ? '../img/starFilled.svg'
+    : '../img/starEmpty.svg';
+  const starAltText = restaurant.is_favorite
+    ? `Restaurant ${restaurant.name} is favorited. Click to remove.`
+    : `Restaurant ${restaurant.name} is not favorited. Click to add.`;
   favoriteStar.title = starAltText;
   favoriteStar.alt = starAltText;
+  favoriteStar.onclick = () => DBHelper.toggleFavorite(restaurant);
   name.append(favoriteStar);
-  //TODO create onClick event
   container.append(name);
 
   const neighborhood = document.createElement('p');

@@ -1,4 +1,4 @@
-import { IdbHandler } from './idbhandler';
+import { IdbHandler, url } from './idbhandler';
 
 /**
  * Common database helper functions.
@@ -63,6 +63,22 @@ export class DBHelper {
       } else {
         // Filter restaurants to have only given neighborhood
         const results = restaurants.filter(r => r.neighborhood == neighborhood);
+        callback(null, results);
+      }
+    });
+  }
+
+  /**
+   * Fetch restaurants by a neighborhood with proper error handling.
+   */
+  static fetchRestaurantByFavorite(favorite, callback) {
+    // Fetch all restaurants
+    DBHelper.fetchRestaurants((error, restaurants) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        // Filter restaurants to have only given is_favorite
+        const results = restaurants.filter(r => r.name == favorite);
         callback(null, results);
       }
     });
@@ -152,10 +168,47 @@ export class DBHelper {
         callback(error, null);
       } else {
         // Get all favorite from all restaurants
-        const favorites = restaurants.filter(restaurant => restaurant.is_favorite).map(restaurant => restaurant.name);
+        const favorites = restaurants
+          .filter(restaurant => restaurant.is_favorite)
+          .map(restaurant => restaurant.name);
         callback(null, favorites);
       }
     });
+  }
+
+  /**
+   * Toggle restaurant favoriting with proper error handling.
+   */
+  static toggleFavorite(restaurant, callback) {
+    console.log('toggle favorite');
+    const newValue = !restaurant.is_favorite;
+    DBHelper.toggleFavoriteInApiDBandIdb(restaurant.id, newValue, callback);
+  }
+
+  /**
+   * Toggle restaurant favoriting with proper error handling.
+   */
+  static toggleFavoriteInApiDBandIdb(restaurantId, value, callback) {
+    const favoriteValue = { is_favorite: value };
+    fetch(`${url}/${restaurantId}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(favoriteValue), // data can be `string` or {object}!
+    })
+      .then(res => {
+        console.log(
+          `Updated API DB with restaurant[${restaurantId}].is_favorite : ${value}`
+        );
+        return res.json();
+      })
+      .catch(error => callback(error, null))
+      .then(
+        IdbHandler.toggleFavoriteInIdb(IdbHandler.openDB(), restaurantId, value)
+      )
+      .catch(error => callback(error, null));
+    // .then(location.reload(true));
   }
 
   /**
