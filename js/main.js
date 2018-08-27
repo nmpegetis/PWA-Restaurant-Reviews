@@ -246,7 +246,7 @@ const createRestaurantHTML = restaurant => {
   neighborhood.innerHTML = restaurant.neighborhood;
   container.append(neighborhood);
 
-  const address = document.createElement('p');
+  const address = document.createElement('address');
   address.innerHTML = restaurant.address;
   container.append(address);
 

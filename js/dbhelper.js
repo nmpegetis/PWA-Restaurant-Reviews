@@ -1,4 +1,4 @@
-import { IdbHandler, url } from './idbhandler';
+import { IdbHandler, restaurantsUrl, reviewsUrl } from './idbhandler';
 
 /**
  * Common database helper functions.
@@ -11,7 +11,18 @@ export class DBHelper {
     IdbHandler.fetchIdbData(IdbHandler.openDB()).then(restaurants => {
       !!restaurants && restaurants.length > 0
         ? callback(null, restaurants)
-        : IdbHandler.fetchAndStoreIdbData(IdbHandler.openDB(), callback);
+        : IdbHandler.fetchAndStoreIdbData(IdbHandler.openDB(), 'restaurants', callback);
+    });
+  }
+
+  /**
+   * Fetch all reviews.
+   */
+  static fetchReviews(callback) {
+    IdbHandler.fetchIdbData(IdbHandler.openDB()).then(reviews => {
+      !!reviews && reviews.length > 0
+        ? callback(null, reviews)
+        : IdbHandler.fetchAndStoreIdbData(IdbHandler.openDB(), 'reviews', callback);
     });
   }
 
@@ -31,6 +42,28 @@ export class DBHelper {
         } else {
           // Restaurant does not exist in the database
           callback('Restaurant does not exist', null);
+        }
+      }
+    });
+  }
+
+  /**
+   * Fetch a restaurant by its ID.
+   */
+  static fetchReviewsByRestaurantId(restaurantId, callback) {
+    // fetch all restaurants with proper error handling.
+    DBHelper.fetchReviews((error, allreviews) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        console.log("allreviews",allreviews)
+        const restaurantReviews = allreviews.filter(r => r.restaurant_id == restaurantId);
+        console.log("restaurantReviews",restaurantReviews)
+        if (restaurantReviews.length) {
+          // Got the restaurant
+          callback(null, restaurantReviews);
+        } else {
+          callback(`There are no reviews for Restaurant with id:${restaurantId}`, null);
         }
       }
     });
@@ -190,7 +223,7 @@ export class DBHelper {
    */
   static toggleFavoriteInApiDBandIdb(restaurantId, value, callback) {
     const favoriteValue = { is_favorite: value };
-    fetch(`${url}/${restaurantId}/`, {
+    fetch(`${restaurantsUrl}/${restaurantId}/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

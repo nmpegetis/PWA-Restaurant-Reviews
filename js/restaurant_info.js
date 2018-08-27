@@ -1,6 +1,6 @@
 import { DBHelper } from './dbhelper';
 
-let restaurant;
+let restaurant, reviews;
 let newMap;
 
 /**
@@ -85,6 +85,15 @@ const fetchRestaurantFromURL = callback => {
       fillRestaurantHTML();
       callback(null, restaurant);
     });
+    DBHelper.fetchReviewsByRestaurantId(id, (error, reviews) => {
+      self.reviews = reviews;
+      if (!(Array.isArray(reviews) && reviews.length)) {
+        console.error(error);
+        return;
+      }
+      fillReviewsHTML();
+      callback(null, reviews);
+    });
   }
 };
 
@@ -127,8 +136,6 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
   }
-  // fill reviews
-  fillReviewsHTML();
 };
 
 /**
@@ -156,7 +163,7 @@ const fillRestaurantHoursHTML = (
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+const fillReviewsHTML = (reviews = self.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
@@ -166,13 +173,19 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
     container.appendChild(noReviews);
-    return;
   }
-  const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
-  });
-  container.appendChild(ul);
+  else{
+    const ul = document.getElementById('reviews-list');
+    reviews.forEach(review => {
+      ul.appendChild(createReviewHTML(review));
+    });
+    container.appendChild(ul);
+  }
+
+  const formContainer = document.getElementById('reviewsForm-container');
+  const form = document.getElementById('reviews-form');
+  form.appendChild(createReviewFormHTML());
+  formContainer.appendChild(form);
 };
 
 /**
@@ -185,16 +198,13 @@ const createReviewHTML = review => {
   name.innerHTML = review.name;
   name.setAttribute('class', 'review_name');
   const date = document.createElement('span');
-  date.innerHTML = review.date;
+  date.innerHTML = new Date(review.createdAt).toDateString();
   date.setAttribute('class', 'review_date');
   title.appendChild(name);
   title.appendChild(date);
   title.setAttribute('class', 'review_title');
   li.appendChild(title);
 
-  // const date = document.createElement('p');
-  // date.innerHTML = review.date;
-  // li.appendChild(date);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
