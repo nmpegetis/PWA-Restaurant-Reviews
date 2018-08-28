@@ -183,6 +183,10 @@ const fillReviewsHTML = (reviews = self.reviews) => {
   }
 
   const formContainer = document.getElementById('reviewsForm-container');
+  const formTitle = document.createElement('h2');
+  formTitle.innerHTML = 'Add a Review';
+  formContainer.appendChild(formTitle);
+
   const form = document.getElementById('reviews-form');
   form.appendChild(createReviewFormHTML());
   formContainer.appendChild(form);
@@ -216,6 +220,70 @@ const createReviewHTML = review => {
   li.appendChild(comments);
 
   return li;
+};
+
+/**
+ * Create review HTML and add it to the webpage.
+ */
+const createReviewFormHTML = () => {
+  const createform = document.createElement('form');
+  createform.setAttribute('id', 'review_form');
+
+  const reviewBox = document.createElement('div');
+
+  const title = document.createElement('p');
+  const inputName = document.createElement('input');
+  inputName.setAttribute('class', 'review_name');
+  inputName.setAttribute('type', 'text');
+  inputName.setAttribute('name', 'formName');
+  inputName.setAttribute('aria-label', 'Text input for reviewer\'s name');
+  inputName.setAttribute('placeholder', 'e.g. Elon Musk');
+  const date = document.createElement('span');
+  date.innerHTML = new Date().toDateString();
+  date.setAttribute('class', 'review_date');
+
+  title.appendChild(inputName);
+  title.appendChild(date);
+  title.setAttribute('class', 'review_title');
+  reviewBox.appendChild(title);
+
+  const selectRating = document.createElement('select');
+  selectRating.setAttribute('name', 'formRatings');
+  selectRating.setAttribute('aria-label', 'Ratings Dropdown');
+  selectRating.setAttribute(
+    'placeholder',
+    'Please enter a number between 1 to 5'
+  );
+  [0,1,2,3,4,5].forEach(rating => {
+    const option = document.createElement('option');
+    option.innerHTML = rating;
+    option.value = rating;
+    selectRating.append(option);
+  });
+  const rating = document.createElement('p');
+  rating.innerHTML = 'Rating: ';
+  rating.setAttribute('class', 'review_rating');
+  rating.appendChild(selectRating);
+  reviewBox.appendChild(rating);
+  
+  const textareaReview = document.createElement('textarea');
+  textareaReview.setAttribute('class', 'review_comments');
+  textareaReview.setAttribute('name', 'formReview');
+  textareaReview.setAttribute('aria-label', 'Textarea to review restaurant');
+  textareaReview.setAttribute('placeholder', 'e.g. The dishes were very tasty, and the staff was really polite.');
+  reviewBox.appendChild(textareaReview);
+
+  const submit = document.createElement('button');
+  submit.innerHTML = 'Submit review';
+  submit.addEventListener('click', () => {
+    // this.form.onSubmit
+  });
+  reviewBox.append(submit);
+
+
+  createform.appendChild(reviewBox);
+
+  return createform;
 };
 
 /**
