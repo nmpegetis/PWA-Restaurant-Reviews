@@ -1,11 +1,11 @@
 @charset "utf-8";
 /* CSS Document */
 
-button {
+button, #review_submit {
   cursor: pointer;
 }
 
-button:hover {
+button:hover, #review_submit:hover {
   background-color: rgb(138, 4, 13) !important;
 }
 
@@ -22,7 +22,7 @@ button:hover {
   top: 0;
 }
 
-body,td,th,p,textarea{
+body,td,th,p,textarea, input{
   color: #333;
   font: 16px/1.6 Arial, Helvetica, sans-serif;
 }
@@ -226,7 +226,7 @@ nav h1 a {
 #restaurants-list p {
   margin: 0;
 }
-#restaurants-list li button, #restaurants-list li a, #review_submit {
+#restaurants-list li button, #restaurants-list li a {
   background-color:#BF1722;
   border-bottom: 3px solid #eee;
   color: #fff;
@@ -298,7 +298,10 @@ nav h1 a {
   border-top: 1px solid #fff;
   width: 100%;
 }
-#reviews-container, #review-form, #reviewsForm-container {
+#reviews-container {
+  padding: 30px 40px 40px;
+}
+#review-form, #reviewsForm-container {
   padding: 30px 40px 80px;
 }
 #reviews-container h2, #reviewsForm-container h2 {
@@ -349,6 +352,11 @@ nav h1 a {
   color: white;
 }
 
+#review_form div p .review_name {
+  color: black;
+  min-width: 180px;
+}
+
 .review_date {
   color: #ccc;
 }
@@ -368,6 +376,22 @@ nav h1 a {
   height: 150px;
   padding: 5px;
   margin-left: 5px;
+  border-radius: 5px;
+}
+
+#review_submitContainer {
+  text-align: right;
+}
+
+#review_submit {
+  background-color:#BF1722;
+  border-bottom: 3px solid #eee;
+  color: #fff;
+  width: 120px;
+  display: inline-block;
+  align-self: right;
+  padding: 8px 10px;
+  text-align: center;
   border-radius: 5px;
 }
 
