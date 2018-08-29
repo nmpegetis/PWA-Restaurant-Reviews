@@ -103,4 +103,8 @@ export class IdbHandler {
       );
     });
   }
+
+  static synchronizeOfflineReviews() {
+    console.log('this sync!')
+  }
 }
