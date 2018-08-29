@@ -261,8 +261,19 @@ export class DBHelper {
   /**
    * Restaurant page URL.
    */
-  static saveReviewOffline(review) {
-    return null;
+  static saveReviewOffline(formData) {
+    const restaurantId = formData.id;
+    const data = {
+      restaurant_id: restaurantId,
+      name: formData.formName,
+      createdAt: formData.formDate,
+      updatedAt: formData.formDate,
+      rating: formData.formRatings,
+      comments: formData.formComments,
+      offline: formData.unsync,
+    };
+    IdbHandler.updateIdbData(IdbHandler.openDB(), restaurantId, data);
+    location.reload();
   }
 
   /**

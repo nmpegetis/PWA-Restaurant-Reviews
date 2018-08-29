@@ -259,7 +259,19 @@ const createReviewFormHTML = () => {
   createform.setAttribute('name', 'formReview');
   createform.onsubmit = () => {
     if (validateForm()) {
-      DBHelper.saveReviewOffline();
+      const formData = {
+        id: parseInt(urlParams.get('id')),
+        formName: document.forms['formReview']['formName'].value,
+        formRatings: parseInt(
+          document.forms['formReview']['formRatings'].options[
+            document.forms['formReview']['formRatings'].selectedIndex
+          ].value
+        ),
+        formDate: document.forms['formReview']['formDate'].value,
+        formComments: document.forms['formReview']['formComments'].value,
+        unsync: document.forms['formReview']['formUnsync'].value,
+      };
+      DBHelper.saveReviewOffline(formData);
     }
   };
 
@@ -277,6 +289,15 @@ const createReviewFormHTML = () => {
     nameValue ? nameValue : 'e.g. Gordon James Ramsay'
   );
   inputName.setAttribute('value', nameValue ? nameValue : '');
+
+  const dateInput = document.createElement('input');
+  dateInput.setAttribute('class', 'review_dateInput');
+  dateInput.setAttribute('type', 'hidden');
+  dateInput.setAttribute('name', 'formDate');
+  dateInput.setAttribute('aria-label', "Today's Date input prefilled");
+  dateInput.setAttribute('value', new Date().toDateString());
+  reviewBox.appendChild(dateInput);
+
   const date = document.createElement('span');
   date.innerHTML = new Date().toDateString();
   date.setAttribute('class', 'review_date');
@@ -353,6 +374,12 @@ const createReviewFormHTML = () => {
   inputRestaurantId.setAttribute('value', restaurantId);
   reviewBox.appendChild(inputRestaurantId);
 
+  // needed to post it in form submission to update idb with it and have a flag point to find the unsynced idb entries
+  const inputUnsynced = document.createElement('input');
+  inputUnsynced.setAttribute('type', 'hidden');
+  inputUnsynced.setAttribute('name', 'formUnsync');
+  inputUnsynced.setAttribute('value', true);
+  reviewBox.appendChild(inputUnsynced);
 
   createform.appendChild(reviewBox);
 

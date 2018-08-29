@@ -67,6 +67,25 @@ export class IdbHandler {
       .catch(error => callback(error, null));
   }
 
+  /* update review data from form post to idb */
+  static updateIdbData(dbPromise, restaurantId, data) {
+    const idbCollection = idbReviewsCollection;
+
+    dbPromise.then(db => {
+      if (!db) return;
+      db.transaction(idbCollection, idbPermission)
+        .objectStore(idbCollection)
+        .count()
+        .then(autoIncrement => {
+          data.id = autoIncrement + 1;
+          db.transaction(idbCollection, idbPermission)
+            .objectStore(idbCollection)
+            .add(data)
+            .then(response => console.log('Added new review in idb'));
+        });
+    });
+  }
+
   /* fetch restaurant data from server and store to idb */
   static toggleFavoriteInIdb(dbPromise, restaurantId, value) {
     /*eslint-disable no-undef*/
