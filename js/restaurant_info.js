@@ -49,6 +49,8 @@ const initMap = () => {
       console.error(error);
     }
   });
+  navigator.onLine ? DBHelper.synchronizeOfflineReviews() : null;
+
   return map;
 };
 

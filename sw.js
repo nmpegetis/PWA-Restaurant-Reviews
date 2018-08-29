@@ -1,11 +1,9 @@
-// import idb from 'idb';
-
 var staticCacheName = 'mwsRestaurantApp-001';
 let filesToCache = [
   'index.html',
   'restaurant.html',
-  'sw.js',
-  'idbhandler.js',
+  '/sw.js',
+  '/idbhandler.js',
   'dist/main.bundle.js',
   'dist/restaurant_info.bundle.js',
   'dist/idb.bundle.js',
@@ -95,31 +93,3 @@ this.addEventListener('message', event => {
     this.skipWaiting();
   }
 });
-
-this.addEventListener('sync', event => {
-  if (event.tag === 'reviews-synchronization') {
-    event.waitUntil(synchronizeOfflineReviews());
-  }
-});
-
-function synchronizeOfflineReviews() {
-  console.log('Offline Reviews are synchronized');
-  // const urlParams = new URLSearchParams(window.location.search);
-//   const postData = {
-//     restaurant_id: 1,
-//     name: 'Nikolas',
-//     createdAt: '2018-08-26T13:03:52.732Z',
-//     updatedAt: '2018-08-26T13:03:52.732Z',
-//     rating: 5,
-//     comments: 'hello',
-//   };
-// console.log(postData)
-  // fetch('http://localhost:1337/reviews/', {
-  //     method: 'post',
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(postData),
-  //   }).then(res => console.log('Yeeeiiii!', res.json()));
-}

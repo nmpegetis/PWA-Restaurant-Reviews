@@ -73,7 +73,7 @@ with the start script, a live server will be setup and listen on port 8080
 #### Before:
 ![performance image showing initial state of stage 1](img/mws-stage1-before.png)
 #### After:
-![performance image showing initial state of stage 1](img/mws-stage1-after.png)
+![performance image showing final state of stage 1](img/mws-stage1-after.png)
 
 ### 4. Stage 2 Submission
 ---
@@ -88,12 +88,12 @@ What is more, in addition to the above, I decided to keep the package.json and t
 #### Before:
 ![performance image showing initial state of stage 2](img/mws-stage1-after.png)
 #### After:
-![performance image showing initial state of stage 2](img/mws-stage2-after.png)
+![performance image showing final state of stage 2](img/mws-stage2-after.png)
 
 ### 5. Stage 3 Submission
 ---
 #### i. Introductory note
-In this phase I also impemented three additional features. 
+In this phase I also implemented three additional features. 
 * Added a validation form, 
 * created a functionable filtering for favorites selections dropdown,
 * created the favorite toggle to work also from index page.
@@ -102,9 +102,9 @@ In this phase I also impemented three additional features.
 
 
 #### Before:
-![performance image showing initial state of stage 2](img/mws-stage2-after.png)
+![performance image showing initial state of stage 3](img/mws-stage2-after.png)
 #### After:
-![performance image showing initial state of stage 3](img/mws-stage3-after.png)
+![performance image showing final state of stage 3](img/mws-stage3-after.png)
 
 
 ### 6. Mobile Web Specialist Certification Course

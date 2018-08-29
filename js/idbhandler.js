@@ -86,6 +86,49 @@ export class IdbHandler {
     });
   }
 
+  /* update Api DB data with idb offline data */
+  static postIdbOfflineDataInApiDB(dbPromise, restaurantId, data) {
+    const idbCollection = idbReviewsCollection;
+
+    dbPromise.then(db => {
+      if (!db) return;
+      db.transaction(idbCollection, idbPermission)
+        .objectStore(idbCollection)
+        .getAll()
+        .then(allReviews => {
+          const offlineReviews = allReviews.filter(
+            review => review.offline === 'true'
+          );
+          offlineReviews.map(review => {
+            delete review.offline;
+            return review;
+          });
+          console.log(
+            'allReviews',
+            allReviews,
+            'offlineReviews',
+            offlineReviews
+          );
+          offlineReviews.map(offlineReview =>
+            db
+              .transaction(idbCollection, idbPermission)
+              .objectStore(idbCollection)
+              .put(offlineReview)
+              .then(response => {
+                fetch(reviewsUrl, {
+                  method: 'post',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(offlineReview),
+                }).then(res => console.log('Synced review of idb with api db'));
+              })
+          );
+        });
+    });
+  }
+
   /* fetch restaurant data from server and store to idb */
   static toggleFavoriteInIdb(dbPromise, restaurantId, value) {
     /*eslint-disable no-undef*/
@@ -102,9 +145,5 @@ export class IdbHandler {
         `Updated IDB with restaurant[${restaurantId}].is_favorite : ${value}`
       );
     });
-  }
-
-  static synchronizeOfflineReviews() {
-    console.log('this sync!')
   }
 }

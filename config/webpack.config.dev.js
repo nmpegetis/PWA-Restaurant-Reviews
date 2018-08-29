@@ -4,7 +4,7 @@ const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CompressionPlugin = require('compression-webpack-plugin');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 
 const paths = {
   root: path.resolve(__dirname, '../'),
@@ -138,7 +138,7 @@ module.exports = {
   },
   plugins: [
     new CompressionPlugin(compressionOptions), // https://webpack.js.org/plugins/compression-webpack-plugin/
-    new webpack.HotModuleReplacementPlugin(), //https://webpack.js.org/plugins/hot-module-replacement-plugin/
+    // new webpack.HotModuleReplacementPlugin(), //https://webpack.js.org/plugins/hot-module-replacement-plugin/
     new ImageminPlugin({
       test: '../img/**',
       mozjpeg: {
@@ -156,7 +156,15 @@ module.exports = {
       template: './index.html',
       title: 'Restaurant Reviews',
       chunksSortMode: 'manual',
-      chunks: ['main', 'dbhelper', 'sw_register', 'idbhandler', 'idb', 'maps', 'sw'],
+      chunks: [
+        'main',
+        'dbhelper',
+        'sw_register',
+        'idbhandler',
+        'idb',
+        'maps',
+        'sw',
+      ],
       filename: 'index.html',
       inject: false,
       minify: true,

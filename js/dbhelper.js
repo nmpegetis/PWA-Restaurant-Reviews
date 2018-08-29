@@ -307,6 +307,14 @@ export class DBHelper {
     return marker;
   }
 
+  static synchronizeOfflineReviews() {
+    console.log('Start sync...');
+    IdbHandler.postIdbOfflineDataInApiDB(IdbHandler.openDB(), 'reviews').then(
+      reviews => {
+      }
+    );
+  }
+
   /* static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
       position: restaurant.latlng,
