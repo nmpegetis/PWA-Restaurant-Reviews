@@ -354,7 +354,7 @@ nav h1 a {
 
 #review_form div p .review_name {
   color: black;
-  min-width: 180px;
+  min-width: 250px;
 }
 
 .review_date {
@@ -442,6 +442,11 @@ nav h1 a {
     display: block;
     position: static;
     height: 200px;
+  }
+  
+  #review_form div p .review_name {
+    color: black;
+    min-width: 180px;
   }
 }
 

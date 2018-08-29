@@ -28,7 +28,10 @@ export class IdbHandler {
 
   /* fetch restaurant data from idb */
   static fetchIdbData(dbPromise, collectionName) {
-    const idbCollection = collectionName === 'restaurants' ? idbRestaurantsCollection : idbReviewsCollection;
+    const idbCollection =
+      collectionName === 'restaurants'
+        ? idbRestaurantsCollection
+        : idbReviewsCollection;
 
     return dbPromise.then(db => {
       if (!db) return;
@@ -42,8 +45,11 @@ export class IdbHandler {
   /* fetch restaurant data from server and store to idb */
   static fetchAndStoreIdbData(dbPromise, collectionName, callback) {
     const url = collectionName === 'restaurants' ? restaurantsUrl : reviewsUrl;
-    const idbCollection = collectionName === 'restaurants' ? idbRestaurantsCollection : idbReviewsCollection;
-    
+    const idbCollection =
+      collectionName === 'restaurants'
+        ? idbRestaurantsCollection
+        : idbReviewsCollection;
+
     fetch(url)
       .then(response => response.json())
       .then(data => {

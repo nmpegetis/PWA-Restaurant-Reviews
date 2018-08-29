@@ -14,34 +14,41 @@ document.addEventListener('DOMContentLoaded', event => {
  * Initialize leaflet map
  */
 const initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
+  fetchRestaurantFromURL((error, restaurant = self.restaurant) => {
     if (error) {
       // Got an error!
       console.error(error);
     } else {
-      const map = L.map('map', {
-        center: [restaurant.latlng.lat, restaurant.latlng.lng],
-        zoom: 16,
-        scrollWheelZoom: false,
-      });
-      L.tileLayer(
-        'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}',
-        {
-          mapboxToken:
-            'pk.eyJ1Ijoibm1wZWdldGlzIiwiYSI6ImNqamoyaDVkOTVqNzczcHMycTZ5YmpqYW4ifQ.PFeA3FhfCSfV43jdMdrO9w',
-          maxZoom: 18,
-          attribution:
-            'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-          id: 'mapbox.streets',
-        }
-      ).addTo(map);
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, map);
+      if (!Array.isArray(restaurant)) {
+        const map = L.map('map', {
+          center: [self.restaurant.latlng.lat, self.restaurant.latlng.lng],
+          zoom: 16,
+          scrollWheelZoom: false,
+        });
+        L.tileLayer(
+          'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}',
+          {
+            mapboxToken:
+              'pk.eyJ1Ijoibm1wZWdldGlzIiwiYSI6ImNqamoyaDVkOTVqNzczcHMycTZ5YmpqYW4ifQ.PFeA3FhfCSfV43jdMdrO9w',
+            maxZoom: 18,
+            attribution:
+              'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+              '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+              'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox.streets',
+          }
+        ).addTo(map);
+        fillBreadcrumb();
+        DBHelper.mapMarkerForRestaurant(self.restaurant, map);
+      }
     }
   });
-
+  fetchReviewsFromURL((error, reviews = self.reviews) => {
+    if (error) {
+      // Got an error!
+      console.error(error);
+    }
+  });
   return map;
 };
 
@@ -70,13 +77,16 @@ const fetchRestaurantFromURL = callback => {
     callback(null, self.restaurant);
     return;
   }
-  const id = getParameterByName('id');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+  // const id = getParameterByName('id');
   if (!id) {
     // no id found in URL
     error = 'No restaurant id in URL';
     callback(error, null);
   } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+    DBHelper.fetchRestaurantById(id, (error, restaurant = self.restautant) => {
       self.restaurant = restaurant;
       if (!restaurant) {
         console.error(error);
@@ -85,7 +95,25 @@ const fetchRestaurantFromURL = callback => {
       fillRestaurantHTML();
       callback(null, restaurant);
     });
-    DBHelper.fetchReviewsByRestaurantId(id, (error, reviews) => {
+  }
+};
+
+const fetchReviewsFromURL = callback => {
+  if (self.reviews) {
+    // restaurant already fetched!
+    callback(null, self.reviews);
+    return;
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+  // const id = getParameterByName('id');
+  if (!id) {
+    // no id found in URL
+    error = 'No restaurant id in URL';
+    callback(error, null);
+  } else {
+    DBHelper.fetchReviewsByRestaurantId(id, (error, reviews = self.reviews) => {
       self.reviews = reviews;
       if (!(Array.isArray(reviews) && reviews.length)) {
         console.error(error);
@@ -173,8 +201,7 @@ const fillReviewsHTML = (reviews = self.reviews) => {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
     container.appendChild(noReviews);
-  }
-  else{
+  } else {
     const ul = document.getElementById('reviews-list');
     reviews.forEach(review => {
       ul.appendChild(createReviewHTML(review));
@@ -209,7 +236,6 @@ const createReviewHTML = review => {
   title.setAttribute('class', 'review_title');
   li.appendChild(title);
 
-
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
   rating.setAttribute('class', 'review_rating');
@@ -226,18 +252,31 @@ const createReviewHTML = review => {
  * Create review HTML and add it to the webpage.
  */
 const createReviewFormHTML = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+
   const createform = document.createElement('form');
   createform.setAttribute('id', 'review_form');
+  createform.setAttribute('name', 'formReview');
+  createform.onsubmit = () => {
+    if (validateForm()) {
+      DBHelper.saveReviewOffline();
+    }
+  };
 
   const reviewBox = document.createElement('div');
 
   const title = document.createElement('p');
+  const nameValue = urlParams.get('formName') || null;
   const inputName = document.createElement('input');
   inputName.setAttribute('class', 'review_name');
   inputName.setAttribute('type', 'text');
   inputName.setAttribute('name', 'formName');
-  inputName.setAttribute('aria-label', 'Text input for reviewer\'s name');
-  inputName.setAttribute('placeholder', 'e.g. Elon Musk');
+  inputName.setAttribute('aria-label', "Text input for reviewer's name");
+  inputName.setAttribute(
+    'placeholder',
+    nameValue ? nameValue : 'e.g. Gordon James Ramsay'
+  );
+  inputName.setAttribute('value', nameValue ? nameValue : '');
   const date = document.createElement('span');
   date.innerHTML = new Date().toDateString();
   date.setAttribute('class', 'review_date');
@@ -254,7 +293,7 @@ const createReviewFormHTML = () => {
     'placeholder',
     'Please enter a number between 1 to 5'
   );
-  [0,1,2,3,4,5].forEach(rating => {
+  [0, 1, 2, 3, 4, 5].forEach(rating => {
     const option = document.createElement('option');
     option.innerHTML = rating;
     option.value = rating;
@@ -265,25 +304,83 @@ const createReviewFormHTML = () => {
   rating.setAttribute('class', 'review_rating');
   rating.appendChild(selectRating);
   reviewBox.appendChild(rating);
-  
+
+  const textareaValue = urlParams.get('formComments') || null;
   const textareaReview = document.createElement('textarea');
   textareaReview.setAttribute('class', 'review_comments');
-  textareaReview.setAttribute('name', 'formReview');
+  textareaReview.setAttribute('name', 'formComments');
   textareaReview.setAttribute('aria-label', 'Textarea to review restaurant');
-  textareaReview.setAttribute('placeholder', 'e.g. The dishes were very tasty, and the staff was really polite.');
+  textareaReview.setAttribute(
+    'placeholder',
+    textareaValue
+      ? textareaValue
+      : 'e.g. The dishes were very tasty, and the staff was really polite.'
+  );
+  textareaReview.setAttribute('value', textareaValue ? textareaValue : '');
   reviewBox.appendChild(textareaReview);
 
-  const submit = document.createElement('button');
+  // needed to keep it in url after submission
+  const errorMessagesInput = document.createElement('input');
+  errorMessagesInput.setAttribute('type', 'hidden');
+  errorMessagesInput.setAttribute('name', 'formErrors');
+  errorMessagesInput.setAttribute('id', 'review_errors_input');
+  reviewBox.append(errorMessagesInput);
+
+  const errors = urlParams.get('formErrors') || null;
+  const errorMessages = document.createElement('p');
+  errorMessages.setAttribute('id', 'review_errors');
+  errorMessages.setAttribute('style', 'background-color: pink');
+  errorMessages.innerHTML = errors
+    ? `Attention! \n${errors} must be filled before submitted`
+    : '';
+  reviewBox.append(errorMessages);
+
+  const submitContainer = document.createElement('p');
+  submitContainer.setAttribute('id', 'review_submitContainer');
+  const submit = document.createElement('input');
+  submit.setAttribute('id', 'review_submit');
+  submit.setAttribute('type', 'submit');
+  submit.setAttribute('aria-label', 'Submit button for reviews form');
   submit.innerHTML = 'Submit review';
-  submit.addEventListener('click', () => {
-    // this.form.onSubmit
-  });
-  reviewBox.append(submit);
+  submitContainer.append(submit);
+  reviewBox.append(submitContainer);
+
+  const restaurantId = urlParams.get('id');
+  // needed to keep it in url after submission
+  const inputRestaurantId = document.createElement('input');
+  inputRestaurantId.setAttribute('type', 'hidden');
+  inputRestaurantId.setAttribute('name', 'id');
+  inputRestaurantId.setAttribute('value', restaurantId);
+  reviewBox.appendChild(inputRestaurantId);
 
 
   createform.appendChild(reviewBox);
 
   return createform;
+};
+
+const validateForm = () => {
+  let name = document.forms['formReview']['formName'].value;
+  var rating =
+    document.forms['formReview']['formRatings'].options[
+      document.forms['formReview']['formRatings'].selectedIndex
+    ].value;
+  var review = document.forms['formReview']['formComments'].value;
+
+  let errors = '';
+  if (name === '') {
+    errors += 'Name,';
+  }
+  if (rating === '0') {
+    errors += 'Rating,';
+  }
+  if (review === '') {
+    errors += 'Review';
+  }
+  const messageParam = document.getElementById('review_errors_input');
+  messageParam.setAttribute('value', errors);
+
+  return name === '' || rating === '0' || review === '' ? false : true;
 };
 
 /**

@@ -8,21 +8,31 @@ export class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    IdbHandler.fetchIdbData(IdbHandler.openDB()).then(restaurants => {
-      !!restaurants && restaurants.length > 0
-        ? callback(null, restaurants)
-        : IdbHandler.fetchAndStoreIdbData(IdbHandler.openDB(), 'restaurants', callback);
-    });
+    IdbHandler.fetchIdbData(IdbHandler.openDB(), 'restaurants').then(
+      restaurants => {
+        !!restaurants && restaurants.length > 0
+          ? callback(null, restaurants)
+          : IdbHandler.fetchAndStoreIdbData(
+              IdbHandler.openDB(),
+              'restaurants',
+              callback
+            );
+      }
+    );
   }
 
   /**
    * Fetch all reviews.
    */
   static fetchReviews(callback) {
-    IdbHandler.fetchIdbData(IdbHandler.openDB()).then(reviews => {
+    IdbHandler.fetchIdbData(IdbHandler.openDB(), 'reviews').then(reviews => {
       !!reviews && reviews.length > 0
         ? callback(null, reviews)
-        : IdbHandler.fetchAndStoreIdbData(IdbHandler.openDB(), 'reviews', callback);
+        : IdbHandler.fetchAndStoreIdbData(
+            IdbHandler.openDB(),
+            'reviews',
+            callback
+          );
     });
   }
 
@@ -56,14 +66,18 @@ export class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        console.log("allreviews",allreviews)
-        const restaurantReviews = allreviews.filter(r => r.restaurant_id == restaurantId);
-        console.log("restaurantReviews",restaurantReviews)
+        const restaurantReviews = allreviews.filter(
+          r => r.restaurant_id == restaurantId
+        );
+        console.log('restaurant Reviews', restaurantReviews);
         if (restaurantReviews.length) {
           // Got the restaurant
           callback(null, restaurantReviews);
         } else {
-          callback(`There are no reviews for Restaurant with id:${restaurantId}`, null);
+          callback(
+            `There are no reviews for Restaurant with id:${restaurantId}`,
+            null
+          );
         }
       }
     });
@@ -242,6 +256,13 @@ export class DBHelper {
       )
       .catch(error => callback(error, null));
     // .then(location.reload(true));
+  }
+
+  /**
+   * Restaurant page URL.
+   */
+  static saveReviewOffline(review) {
+    return null;
   }
 
   /**
