@@ -310,8 +310,7 @@ export class DBHelper {
   static synchronizeOfflineReviews() {
     console.log('Start sync...');
     IdbHandler.postIdbOfflineDataInApiDB(IdbHandler.openDB(), 'reviews').then(
-      reviews => {
-      }
+      reviews => {}
     );
   }
 

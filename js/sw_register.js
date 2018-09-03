@@ -2,7 +2,6 @@ if (navigator.serviceWorker) {
   navigator.serviceWorker
     .register('/sw.js')
     .then(registration => {
-
       // console.log(document,document.getElementById('form'))
       // document.getElementsByTagName('form').onsubmit = () => {
       //   registration.sync.register('reviews-synchronization')

@@ -259,6 +259,7 @@ const createReviewFormHTML = () => {
   const createform = document.createElement('form');
   createform.setAttribute('id', 'review_form');
   createform.setAttribute('name', 'formReview');
+  createform.setAttribute('role', 'form');
   createform.onsubmit = () => {
     if (validateForm()) {
       const formData = {
