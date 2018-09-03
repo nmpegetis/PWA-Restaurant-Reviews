@@ -1,20 +1,21 @@
-# Udacity & Google MWS Project Stages 1-2
+# Udacity & Google MWS Project Stages 1-3
 ## Contents
 1. Installation
 2. Usage  
-3. Stage 1 Submission
+3. PWA - Restaurant Reviews showcase
+4. Stage 1 Submission
    i. Result presentation
    ii. Final site performance 
       - using audit results, with Chrome Lighthouse DevTool
-4. Stage 2 Submission
+5. Stage 2 Submission
    i. Introductory note
    ii. Final site performance 
       - using audit results, with Chrome Lighthouse DevTool
-5. Stage 3 Submission
+6. Stage 3 Submission
    i. Introductory note
    ii. Final site performance 
       - using audit results, with Chrome Lighthouse DevTool
-6. Previous forked [Readme.md](https://github.com/udacity/mws-restaurant-stage-1/blob/master/README.md)
+7. Previous forked [Readme.md](https://github.com/udacity/mws-restaurant-stage-1/blob/master/README.md)
     i. Stage-1 Task Specifications 
     ii. Stage-2 Task Specifications 
     iii. Stage-3 Task Specifications 
@@ -59,7 +60,11 @@ with the start script, a live server will be setup and listen on port 8080
 
 > The above scripts are cleaning, building and running the application. See more in [package.json](./package.json).
 
-### 3. Stage 1 Submission
+### 3. PWA - Restaurant Reviews showcase
+---
+![gif showing a showcase working scenario of use Restaurant Reviews](img/PWA_RR_showcase.gif)
+
+### 4. Stage 1 Submission
 ---
 #### i. Result presentation
 ![result presentation gif](img/mws-stage1-complete1.png)
@@ -75,7 +80,7 @@ with the start script, a live server will be setup and listen on port 8080
 #### After:
 ![performance image showing final state of stage 1](img/mws-stage1-after.png)
 
-### 4. Stage 2 Submission
+### 5. Stage 2 Submission
 ---
 #### i. Introductory note
 At the project: Stage-2 beginning, I was looking into using `git subtree` or `git submodules` but finally decided to just merge the `udacity/mws-restaurant-stage-2` in here in a seperate folder **`server`**. The reason I did this was because what was provided in **Stage-2** and in **Stage-3** is almost ready and doesn't need to be touched by me. Nevertheless, I created a new branch and a corresponding commit showing this merge between the two projects. From now on, this repository is going to be the main repository for all stages of the project. 
@@ -90,7 +95,7 @@ What is more, in addition to the above, I decided to keep the package.json and t
 #### After:
 ![performance image showing final state of stage 2](img/mws-stage2-after.png)
 
-### 5. Stage 3 Submission
+### 6. Stage 3 Submission
 ---
 #### i. Introductory note
 In this phase I also implemented three additional features. 
@@ -107,7 +112,7 @@ In this phase I also implemented three additional features.
 ![performance image showing final state of stage 3](img/mws-stage3-after.png)
 
 
-### 6. Mobile Web Specialist Certification Course
+### 7. Mobile Web Specialist Certification Course
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
 ---
