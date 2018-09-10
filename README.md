@@ -1,7 +1,9 @@
 # Udacity & Google MWS Project Stages 1-3
 ## Contents
 1. Installation
-2. Usage  
+2. Usage
+   i. Run the front-end and the back-end implementations
+   ii. Get a MapBox API key and the map on screen
 3. PWA - Restaurant Reviews showcase
 4. Stage 1 Submission
    i. Result presentation
@@ -37,7 +39,7 @@ with the above commands, all packages that this project has as dependencies will
 
 ### 2. Usage
 ---
-
+#### i. Run the front-end and the back-end
 > You should have a package manager like [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) installed. 
 
 Then:
@@ -59,6 +61,17 @@ npm run start
 with the start script, a live server will be setup and listen on port 8080
 
 > The above scripts are cleaning, building and running the application. See more in [package.json](./package.json).
+
+#### ii. Get a MapBox API key and the map on screen
+
+#####  Get a [MapBox API key](https://www.mapbox.com/install/)
+* If you do not already have a MapBox account, go ahead and create one
+* MapBox API is free to use (no need to provide any payment information)
+
+##### Get the map on the screen
+
+* Head over to your account and create a token. Replace the text `<your MAPBOX API KEY HERE>` inside of `main.js` with your key
+* Now, what about rendering the map for individual restaurants? Check out `restaurant_info.js`. Where would be a good spot to place your API key?
 
 ### 3. PWA - Restaurant Reviews showcase
 ---
