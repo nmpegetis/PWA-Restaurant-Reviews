@@ -80,9 +80,9 @@ export class IdbHandler {
           data.id = autoIncrement + 1;
           db.transaction(idbCollection, idbPermission)
             .objectStore(idbCollection)
-            .add(data)
-            .then(response => console.log('Added new review in idb'));
-        });
+            .add(data);
+        })
+        .then(response => console.log('Added new review in idb'));
     });
   }
 
@@ -109,6 +109,9 @@ export class IdbHandler {
             'offlineReviews',
             offlineReviews
           );
+          return offlineReviews;
+        })
+        .then(offlineReviews =>
           offlineReviews.map(offlineReview =>
             db
               .transaction(idbCollection, idbPermission)
@@ -122,28 +125,35 @@ export class IdbHandler {
                     'Content-Type': 'application/json',
                   },
                   body: JSON.stringify(offlineReview),
-                }).then(res => console.log('Synced review of idb with api db'));
+                });
               })
-          );
-        });
+          )
+        )
+        .then(res => console.log('Synced review of idb with api db'));
     });
   }
 
   /* fetch restaurant data from server and store to idb */
   static toggleFavoriteInIdb(dbPromise, restaurantId, value) {
     /*eslint-disable no-undef*/
-    dbPromise.then(db => {
-      if (!db) return;
-      const idbStore = db
-        .transaction(idbRestaurantsCollection, idbPermission)
-        .objectStore(idbRestaurantsCollection);
-      idbStore.get(restaurantId).then(updatedRestaurant => {
-        updatedRestaurant.is_favorite = value;
-        idbStore.put(updatedRestaurant);
-      });
-      console.log(
-        `Updated IDB with restaurant[${restaurantId}].is_favorite : ${value}`
+    dbPromise
+      .then(db => {
+        if (!db) return;
+        const idbStore = db
+          .transaction(idbRestaurantsCollection, idbPermission)
+          .objectStore(idbRestaurantsCollection);
+        return idbStore;
+      })
+      .then(idbStore =>
+        idbStore.get(restaurantId).then(updatedRestaurant => {
+          updatedRestaurant.is_favorite = value;
+          idbStore.put(updatedRestaurant);
+        })
+      )
+      .then(res =>
+        console.log(
+          `Updated IDB with restaurant[${restaurantId}].is_favorite : ${value}`
+        )
       );
-    });
   }
 }
