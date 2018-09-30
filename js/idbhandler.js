@@ -6,10 +6,10 @@ const idbReviewsCollection = 'reviews';
 const idbVersion = 1;
 const idbPermission = 'readwrite';
 
-const server = 'localhost';
+const server = 'pwa-restaurant-reviews-server.herokuapp.com';
 const port = '1337';
-export const restaurantsUrl = `http://${server}:${port}/restaurants`;
-export const reviewsUrl = `http://${server}:${port}/reviews`;
+export const restaurantsUrl = `https://${server}/restaurants`;
+export const reviewsUrl = `https://${server}/reviews`;
 
 /*eslint-disable no-unused-vars*/
 

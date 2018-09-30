@@ -33,7 +33,7 @@ module.exports = {
   // NOTE: https://webpack.js.org/configuration/output/#output-filename
   output: {
     path: paths.dist,
-    filename: '[chunkhash].bundle.js',
+    filename: '[name].bundle.js',
   },
 
   // NOTE: check https://webpack.js.org/configuration/devtool/
@@ -149,7 +149,15 @@ module.exports = {
       template: './index.html',
       title: 'Restaurant Reviews',
       chunksSortMode: 'manual',
-      chunks: ['main', 'dbhelper', 'sw_register', 'idb', 'maps', 'sw'],
+      chunks: [
+        'main',
+        'dbhelper',
+        'sw_register',
+        'idbhandler',
+        'idb',
+        'maps',
+        'sw',
+      ],
       filename: 'index.html',
       inject: false,
       minify: true,
@@ -164,6 +172,7 @@ module.exports = {
         'dbhelper',
         'sw_register',
         'idb',
+        'idbhandler',
         'maps',
         'sw',
       ],
